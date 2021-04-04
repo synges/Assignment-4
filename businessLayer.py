@@ -131,11 +131,13 @@ def plot_png():
     df = pd.DataFrame(records2)
     df = df.groupby(['prname'])[plotColumn].mean()
     '''creating the dataframe and choosing which column to plot'''
-
+    # Ahmed Aziz
     df.plot.barh(title=plotColumn,
                  ylabel="numtotal", xlabel="Provinces and Territories")
 
     figure = plt.gcf()
+    '''get figure from the plot'''
+    # Ahmed Aziz
     output = io.BytesIO()
     figure.set_figwidth(10)
     figure.set_figheight(4.4)

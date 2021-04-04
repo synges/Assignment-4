@@ -4,7 +4,6 @@ pruid,prname,prnameFR,date,numconf,numprob,numdeaths,numtotal,numtoday,ratetotal
 35,Ontario,Ontario,2020-02-08,3,0,0,3,0,0.02
 59,British Columbia,Colombie-Britannique,2020-02-08,4,0,0,4,3,0.08
 1,Canada,Canada,2020-02-08,7,0,0,7,3,0.02
-35,Ontario,Ontario,2020-02-16,3,0,0,3,0,0.02
 59,British Columbia,Colombie-Britannique,2020-02-16,5,0,0,5,1,0.1
 1,Canada,Canada,2020-02-16,8,0,0,8,1,0.02
 35,Ontario,Ontario,2020-02-21,3,0,0,3,0,0.02
