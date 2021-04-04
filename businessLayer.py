@@ -1,6 +1,13 @@
+import matplotlib.pyplot as plt
 import persistenceLayer
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, flash, redirect, url_for, Response
 from covidRecordModel import CovidRecordModel
+import pandas as pd
+import mpld3
+import matplotlib
+import io
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+matplotlib.use('Agg')
 
 
 app = Flask(__name__)
@@ -9,6 +16,7 @@ app.secret_key = "Ahmed"
 
 records = persistenceLayer.fetchRecords()
 '''Array that holds the records fetched from the database'''
+
 
 displayRange = [0, 100]
 '''the range of data displayed on the screen, defaults to 100'''
@@ -105,6 +113,24 @@ def editCreate(index):
         return render_template("editCreate.html", index=index, record=CovidRecordModel("", "", "", "", "", "", "", "", "", "", ""))
     else:
         return render_template("editCreate.html", index=index, record=records[int(index)])
+
+
+@app.route('/plot.png')
+def plot_png():
+    records2 = [record.__dict__ for record in records]
+    df = pd.DataFrame(records2)
+    df = df.groupby(['prname'])['numtotal'].mean()
+
+    df.plot.barh(title="Total Number of Cases by Province",
+                 ylabel="numtotal", xlabel="Provinces and Territories")
+
+    figure = plt.gcf()
+    output = io.BytesIO()
+    figure.set_figwidth(10)
+    figure.set_figheight(4.4)
+
+    FigureCanvas(figure).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
 
 
 if __name__ == "__main__":

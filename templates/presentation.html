@@ -56,7 +56,22 @@
                 </h3>
             </div>
 
+            <form action="#">
+                Choose column to plot
+                <select name="min-row" class="form-select mb-2">
+                    <option value="numconf">numconf</option>
+                    <option value="numprob">numprob</option>
+                    <option value="numdeaths">numdeaths</option>
+                    <option value="numtotal" selected>numtotal</option>
+                    <option value="numtoday">numtoday</option>
+                    <option value="ratetotal">ratetotal</option>
+                </select>
+                <button type="submit" value="plot" name="submit_button" class="btn btn-primary">Plot Column</button>
+            </form>
 
+            <div class="chart-container">
+                <img src="/plot.png" alt="my plot">
+            </div>
 
             <table class="table table-striped table-hover">
                 <thead>
