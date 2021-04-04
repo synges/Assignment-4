@@ -22,6 +22,7 @@ displayRange = [0, 100]
 '''the range of data displayed on the screen, defaults to 100'''
 
 plotColumn = 'ratetotal'
+'''column to be ploted'''
 
 # Author: Ahmed Aziz
 
@@ -122,11 +123,14 @@ def editCreate(index):
 
 @app.route('/plot.png')
 def plot_png():
+    '''function to plot the chart and export it as a png'''
     global plotColumn
 
     records2 = [record.__dict__ for record in records]
+
     df = pd.DataFrame(records2)
     df = df.groupby(['prname'])[plotColumn].mean()
+    '''creating the dataframe and choosing which column to plot'''
 
     df.plot.barh(title=plotColumn,
                  ylabel="numtotal", xlabel="Provinces and Territories")
@@ -135,6 +139,7 @@ def plot_png():
     output = io.BytesIO()
     figure.set_figwidth(10)
     figure.set_figheight(4.4)
+    '''exporting the figure from the plot'''
 
     FigureCanvas(figure).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
