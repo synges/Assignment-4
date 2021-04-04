@@ -21,6 +21,8 @@ records = persistenceLayer.fetchRecords()
 displayRange = [0, 100]
 '''the range of data displayed on the screen, defaults to 100'''
 
+plotColumn = 'ratetotal'
+
 # Author: Ahmed Aziz
 
 
@@ -29,6 +31,7 @@ def home():
     '''Home Method is exuectued to render the home page of the web app and to handle diffrent Post and Get requests coming from user interactions, it returns the template to be rendered'''
     global records
     global displayRange
+    global plotColumn
     '''needed to declare the variables gloval to access them between diffrent methods'''
     if request.method == "POST":
         '''if condition to handle all POST requests coming from user interactions'''
@@ -99,6 +102,8 @@ def home():
                     records[updatedIndex].recordID))
         elif request.form['submit_button'] == 'displayAll':
             displayRange = [0, 100]
+        elif request.form['submit_button'] == 'plot':
+            plotColumn = request.form['plot-column']
 
     return render_template("presentation.html", rows=records, rowRange=displayRange, totalrows=len(records))
 
@@ -117,11 +122,13 @@ def editCreate(index):
 
 @app.route('/plot.png')
 def plot_png():
+    global plotColumn
+
     records2 = [record.__dict__ for record in records]
     df = pd.DataFrame(records2)
-    df = df.groupby(['prname'])['numtotal'].mean()
+    df = df.groupby(['prname'])[plotColumn].mean()
 
-    df.plot.barh(title="Total Number of Cases by Province",
+    df.plot.barh(title=plotColumn,
                  ylabel="numtotal", xlabel="Provinces and Territories")
 
     figure = plt.gcf()
